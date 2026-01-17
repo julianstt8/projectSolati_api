@@ -146,7 +146,7 @@ final class TaskController
         if (
             !isset($data['title']) || trim($data['title']) === '' ||
             !isset($data['description']) || trim($data['description']) === '' ||
-            !isset($data['pending']) || !is_bool($data['pending'])
+            !isset($data['status']) || !is_bool($data['status'])
         ) {
             return 'Todos los campos son obligatorios y deben ser válidos';
         }
