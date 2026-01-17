@@ -55,7 +55,7 @@ final class TaskController
         try {
             $data = $this->getJsonBody();
 
-            $error = $this->validateTitle($data, true);
+            $error = $this->validateTask($data);
             if ($error !== null) {
                 $this->badRequest($error);
                 return;
@@ -82,7 +82,7 @@ final class TaskController
         try {
             $data = $this->getJsonBody();
 
-            $error = $this->validateTitle($data, false);
+            $error = $this->validateTask($data);
             if ($error !== null) {
                 $this->badRequest($error);
                 return;
@@ -141,14 +141,14 @@ final class TaskController
     /**
      * Valida el campo "title" en los datos proporcionados.
      */
-    private function validateTitle(array $data, bool $required): ?string
+    private function validateTask(array $data): ?string
     {
-        if ($required && !isset($data['title'])) {
-            return 'El titulo es requerido';
-        }
-
-        if (isset($data['title']) && (!is_string($data['title']) || trim($data['title']) === '')) {
-            return 'El titulo no puede estar vacio';
+        if (
+            !isset($data['title']) || trim($data['title']) === '' ||
+            !isset($data['description']) || trim($data['description']) === '' ||
+            !isset($data['pending']) || !is_bool($data['pending'])
+        ) {
+            return 'Todos los campos son obligatorios y deben ser válidos';
         }
 
         return null;
